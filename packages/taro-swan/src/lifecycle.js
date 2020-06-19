@@ -158,7 +158,11 @@ function doUpdate (component, prevProps, prevState) {
     component.$usedState.forEach(key => {
       let val = safeGet(data, key)
       if (typeof val === 'undefined') {
-        return
+        if (isDEV) {
+          console.warn(`[Taro warn] 请给 \`${key}\` 提供 \`undefined\` 以外的值，以避免异常！`)
+        } else {
+          return
+        }
       }
       if (typeof val === 'object') {
         if (isEmptyObject(val)) return safeSet(_data, key, val)
